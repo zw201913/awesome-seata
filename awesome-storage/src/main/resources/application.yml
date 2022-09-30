@@ -1,0 +1,10 @@
+spring:
+  profiles:
+    active: dev
+  application:
+    name: storage
+project:
+  version: "1.1"
+server:
+  port: 8082
+
