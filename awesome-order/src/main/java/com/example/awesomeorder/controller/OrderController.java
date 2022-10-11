@@ -21,11 +21,20 @@ public class OrderController implements OrderApi {
 	private IOrderService orderService;
 
 	@Override
-	public Boolean createOrder(OrderInfo orderInfo) {
+	public Boolean createOrder4AT(OrderInfo orderInfo) {
 		String commodityCode = orderInfo.getCommodityCode();
 		int count = orderInfo.getCount();
 		long unitPrice = orderInfo.getUnitPrice();
 		String userId = orderInfo.getUserId();
-		return orderService.createOrder(userId, commodityCode, count, unitPrice);
+		return orderService.createOrder4AT(userId, commodityCode, count, unitPrice);
+	}
+
+	@Override
+	public Boolean createOrder4TCC(OrderInfo orderInfo) {
+		String commodityCode = orderInfo.getCommodityCode();
+		int count = orderInfo.getCount();
+		long unitPrice = orderInfo.getUnitPrice();
+		String userId = orderInfo.getUserId();
+		return orderService.createOrder4TCC(userId, commodityCode, count, unitPrice);
 	}
 }

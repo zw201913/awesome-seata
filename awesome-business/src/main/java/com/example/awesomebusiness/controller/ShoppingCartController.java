@@ -2,7 +2,9 @@ package com.example.awesomebusiness.controller;
 
 import com.example.awesomebusiness.service.ShoppingCartService;
 import io.seata.core.exception.GlobalTransactionException;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,9 +22,13 @@ public class ShoppingCartController {
 	@Autowired
 	private ShoppingCartService shoppingCartService;
 
-	@PostMapping("/placeOrder")
-	public String placeOrder() throws GlobalTransactionException {
-		return shoppingCartService.placeOrder();
+	@PostMapping("/placeOrder/{model}")
+	public String placeOrder(@PathVariable("model") String model) throws GlobalTransactionException {
+		if (StringUtils.equalsIgnoreCase(model, "AT")) {
+			return shoppingCartService.placeOrder4AT();
+		} else if (StringUtils.equalsIgnoreCase(model, "TCC")) {
+			return shoppingCartService.placeOrder4TCC();
+		}
+		return shoppingCartService.placeOrder4AT();
 	}
-
 }

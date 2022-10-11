@@ -20,6 +20,10 @@ public interface WalletApi {
 	 * @param amountInfo
 	 * @return
 	 */
-	@PostMapping("/deductMoney")
-	Boolean deductMoney(@RequestBody AmountInfo amountInfo);
+	@PostMapping("/deductMoney4AT")
+	Boolean deductMoney4AT(@RequestBody AmountInfo amountInfo);
+
+
+	@PostMapping("/deductMoney4TCC")
+	Boolean deductMoney4TCC(@RequestBody AmountInfo amountInfo);
 }

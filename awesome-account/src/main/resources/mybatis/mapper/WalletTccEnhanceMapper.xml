@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.awesomeaccount.dao.mapper.WalletTccEnhanceMapper">
+  <update id="prepareDeductMoney">
+    update wallet_tcc_tbl
+    set money = money - #{amount,jdbcType=INTEGER},
+        pre_money = pre_money + #{amount,jdbcType=INTEGER}
+    where user_id = #{userId,jdbcType=VARCHAR}
+      and money <![CDATA[ >= ]]>#{amount,jdbcType=INTEGER}
+  </update>
+
+
+  <update id="commitDeductMoney">
+    update wallet_tcc_tbl
+    set pre_money = pre_money - #{amount,jdbcType=INTEGER}
+    where user_id = #{userId,jdbcType=VARCHAR}
+      and pre_money <![CDATA[ >= ]]>#{amount,jdbcType=INTEGER}
+  </update>
+
+  <update id="rollbackDeductMoney">
+    update wallet_tcc_tbl
+    set money = money + #{amount,jdbcType=INTEGER},
+        pre_money = pre_money - #{amount,jdbcType=INTEGER}
+    where user_id = #{userId,jdbcType=VARCHAR}
+      and pre_money <![CDATA[ >= ]]>#{amount,jdbcType=INTEGER}
+  </update>
+</mapper>

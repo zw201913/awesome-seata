@@ -12,6 +12,10 @@ import org.springframework.web.bind.annotation.RequestBody;
  */
 public interface OrderApi {
 
-	@PutMapping("/create")
-	Boolean createOrder(@RequestBody OrderInfo orderInfo);
+	@PutMapping("/create4At")
+	Boolean createOrder4AT(@RequestBody OrderInfo orderInfo);
+
+
+	@PutMapping("/create4TCC")
+	Boolean createOrder4TCC(@RequestBody OrderInfo orderInfo);
 }

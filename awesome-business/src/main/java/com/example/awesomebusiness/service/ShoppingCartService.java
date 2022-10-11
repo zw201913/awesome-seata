@@ -10,5 +10,9 @@ import io.seata.core.exception.GlobalTransactionException;
  */
 public interface ShoppingCartService {
 	// 下单
-	String placeOrder() throws GlobalTransactionException;
+	String placeOrder4AT() throws GlobalTransactionException;
+
+
+	// 下单
+	String placeOrder4TCC() throws GlobalTransactionException;
 }

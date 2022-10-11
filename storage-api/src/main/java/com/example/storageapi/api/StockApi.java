@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
  */
 public interface StockApi {
 
-	@PostMapping("/deduct")
-	Boolean deductStock(@RequestBody OrderInfo orderInfo);
+	@PostMapping("/deduct4AT")
+	Boolean deductStock4AT(@RequestBody OrderInfo orderInfo);
+
+	@PostMapping("/deduct4TCC")
+	Boolean deductStock4TCC(@RequestBody OrderInfo orderInfo);
 }

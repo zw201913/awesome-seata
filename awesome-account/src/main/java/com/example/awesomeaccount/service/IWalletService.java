@@ -14,5 +14,14 @@ public interface IWalletService {
 	 * @param amount
 	 * @return
 	 */
-	Boolean deductMoney(String userId, long amount);
+	Boolean deductMoney4AT(String userId, long amount);
+
+	/**
+	 * 预扣款
+	 *
+	 * @param userId
+	 * @param amount
+	 * @return
+	 */
+	Boolean deductMoney4TCC(String userId, long amount);
 }

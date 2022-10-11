@@ -26,12 +26,22 @@ public class WalletController implements WalletApi {
 	private IWalletService walletService;
 
 	@Override
-	public Boolean deductMoney(AmountInfo amountInfo) {
+	public Boolean deductMoney4AT(AmountInfo amountInfo) {
 		String userId = amountInfo.getUserId();
 		long amount = amountInfo.getAmount();
 		// 打印分布式事务XID
 		log.warn("XID:{}", RootContext.getXID());
 		// 扣款
-		return walletService.deductMoney(userId, amount);
+		return walletService.deductMoney4AT(userId, amount);
+	}
+
+	@Override
+	public Boolean deductMoney4TCC(AmountInfo amountInfo) {
+		String userId = amountInfo.getUserId();
+		long amount = amountInfo.getAmount();
+		// 打印分布式事务XID
+		log.warn("XID:{}", RootContext.getXID());
+		// 扣款
+		return walletService.deductMoney4TCC(userId, amount);
 	}
 }

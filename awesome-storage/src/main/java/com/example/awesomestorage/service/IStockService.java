@@ -8,5 +8,7 @@ package com.example.awesomestorage.service;
  */
 public interface IStockService {
 
-	Boolean deductStock(String commodityCode, int count);
+	Boolean deductStock4AT(String commodityCode, int count);
+
+	Boolean deductStock4TCC(String commodityCode, int count);
 }

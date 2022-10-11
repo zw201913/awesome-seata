@@ -8,5 +8,7 @@ package com.example.awesomeorder.service;
  */
 public interface IOrderService {
 
-	Boolean createOrder(String userId, String commodityCode, int count, long unitPrice);
+	Boolean createOrder4AT(String userId, String commodityCode, int count, long unitPrice);
+
+	Boolean createOrder4TCC(String userId, String commodityCode, int count, long unitPrice);
 }

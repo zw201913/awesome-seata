@@ -4,7 +4,9 @@ import com.example.awesomeorder.api.StockApiClient;
 import com.example.awesomeorder.dao.entity.Order;
 import com.example.awesomeorder.dao.mapper.OrderMapper;
 import com.example.awesomeorder.service.IOrderService;
+import com.example.awesomeorder.tcc.IOrderTccAction;
 import com.example.storageapi.model.OrderInfo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,11 +25,14 @@ public class OrderServiceImpl implements IOrderService {
 	@Resource
 	private OrderMapper orderMapper;
 
+	@Autowired
+	private IOrderTccAction orderTccAction;
+
 	@Resource
 	private StockApiClient stockApiClient;
 
 	/**
-	 * 创建订单
+	 * 创建订单（AT模式）
 	 *
 	 * @param userId
 	 * @param commodityCode
@@ -37,7 +42,7 @@ public class OrderServiceImpl implements IOrderService {
 	 */
 	@Transactional
 	@Override
-	public Boolean createOrder(String userId, String commodityCode, int count, long unitPrice) {
+	public Boolean createOrder4AT(String userId, String commodityCode, int count, long unitPrice) {
 		// 构建待扣减的库存信息
 		OrderInfo orderInfo = new OrderInfo();
 		// 设置商品编码
@@ -60,6 +65,33 @@ public class OrderServiceImpl implements IOrderService {
 			order.setUnitPrice(unitPrice);
 			// 创建订单
 			return orderMapper.insert(order) > 0;
+		}
+		// 扣减库存失败，订单创建失败
+		return Boolean.FALSE;
+	}
+
+	/**
+	 * 预创建订单（TCC模式）
+	 *
+	 * @param userId
+	 * @param commodityCode
+	 * @param count
+	 * @param unitPrice
+	 * @return
+	 */
+	@Transactional
+	@Override
+	public Boolean createOrder4TCC(String userId, String commodityCode, int count, long unitPrice) {
+		// 构建待扣减的库存信息
+		OrderInfo orderInfo = new OrderInfo();
+		// 设置商品编码
+		orderInfo.setCommodityCode(commodityCode);
+		// 设置需要扣减的数量
+		orderInfo.setCount(count);
+		// 预扣减库存
+		if (stockApiClient.deductStock(orderInfo)) {
+			// 预创建订单
+			return orderTccAction.prepareOrder(null, userId, commodityCode, count, unitPrice);
 		}
 		// 扣减库存失败，订单创建失败
 		return Boolean.FALSE;
