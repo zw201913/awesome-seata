@@ -5,6 +5,7 @@ import com.example.awesomeorder.dao.mapper.OrderTccMapper;
 import com.example.awesomeorder.tcc.IOrderTccAction;
 import com.example.awesomeorder.tcc.TccActionResultWrap;
 import io.seata.rm.tcc.api.BusinessActionContext;
+import io.seata.rm.tcc.api.BusinessActionContextUtil;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,7 +53,9 @@ public class OrderTccActionImpl implements IOrderTccAction {
 		// 创建订单
 		boolean result = orderTccMapper.insert(order) > 0;
 		// 记录主键ID，为了传递给提交或回滚
-		businessActionContext.addActionContext("id", order.getId());
+		BusinessActionContextUtil.addContext("id", order.getId());
+//		不建议使用
+//		businessActionContext.addActionContext("id", order.getId());
 		// 记录执行结果：xid:result
 		// 以便回滚时判断是否是空回滚
 		TccActionResultWrap.prepareSuccess(xid);
