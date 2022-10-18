@@ -2,7 +2,9 @@ package com.example.awesomeorder.service.impl;
 
 import com.example.awesomeorder.api.StockApiClient;
 import com.example.awesomeorder.dao.entity.Order;
+import com.example.awesomeorder.dao.entity.OrderXA;
 import com.example.awesomeorder.dao.mapper.OrderMapper;
+import com.example.awesomeorder.dao.mapper.OrderXAMapper;
 import com.example.awesomeorder.service.IOrderService;
 import com.example.awesomeorder.tcc.IOrderTccAction;
 import com.example.storageapi.model.OrderInfo;
@@ -24,6 +26,9 @@ public class OrderServiceImpl implements IOrderService {
 
 	@Resource
 	private OrderMapper orderMapper;
+
+	@Resource
+	private OrderXAMapper orderXAMapper;
 
 	@Autowired
 	private IOrderTccAction orderTccAction;
@@ -65,6 +70,45 @@ public class OrderServiceImpl implements IOrderService {
 			order.setUnitPrice(unitPrice);
 			// 创建订单
 			return orderMapper.insert(order) > 0;
+		}
+		// 扣减库存失败，订单创建失败
+		return Boolean.FALSE;
+	}
+
+	/**
+	 * 创建订单（XA模式）
+	 *
+	 * @param userId
+	 * @param commodityCode
+	 * @param count
+	 * @param unitPrice
+	 * @return
+	 */
+	@Transactional
+	@Override
+	public Boolean createOrder4XA(String userId, String commodityCode, int count, long unitPrice) {
+		// 构建待扣减的库存信息
+		OrderInfo orderInfo = new OrderInfo();
+		// 设置商品编码
+		orderInfo.setCommodityCode(commodityCode);
+		// 设置需要扣减的数量
+		orderInfo.setCount(count);
+		// 先构建库存
+		if (stockApiClient.deductStock4XA(orderInfo)) {
+			// 扣减库存成功后，准备创建订单
+			OrderXA order = new OrderXA();
+			// 创建时间
+			order.setCreateTime(LocalDateTime.now());
+			// 用户ID
+			order.setUserId(userId);
+			// 数量
+			order.setCount(count);
+			// 商品编码
+			order.setCommodityCode(commodityCode);
+			// 单价
+			order.setUnitPrice(unitPrice);
+			// 创建订单
+			return orderXAMapper.insert(order) > 0;
 		}
 		// 扣减库存失败，订单创建失败
 		return Boolean.FALSE;

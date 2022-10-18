@@ -28,6 +28,13 @@ public class StockController implements StockApi {
 	}
 
 	@Override
+	public Boolean deductStock4XA(OrderInfo orderInfo) {
+		String commodityCode = orderInfo.getCommodityCode();
+		int count = orderInfo.getCount();
+		return stockService.deductStock4XA(commodityCode, count);
+	}
+
+	@Override
 	public Boolean deductStock4TCC(OrderInfo orderInfo) {
 		String commodityCode = orderInfo.getCommodityCode();
 		int count = orderInfo.getCount();

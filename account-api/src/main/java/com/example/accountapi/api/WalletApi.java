@@ -23,7 +23,21 @@ public interface WalletApi {
 	@PostMapping("/deductMoney4AT")
 	Boolean deductMoney4AT(@RequestBody AmountInfo amountInfo);
 
+	/**
+	 * 扣款
+	 *
+	 * @param amountInfo
+	 * @return
+	 */
+	@PostMapping("/deductMoney4XA")
+	Boolean deductMoney4XA(@RequestBody AmountInfo amountInfo);
 
+	/**
+	 * 预扣款
+	 *
+	 * @param amountInfo
+	 * @return
+	 */
 	@PostMapping("/deductMoney4TCC")
 	Boolean deductMoney4TCC(@RequestBody AmountInfo amountInfo);
 }

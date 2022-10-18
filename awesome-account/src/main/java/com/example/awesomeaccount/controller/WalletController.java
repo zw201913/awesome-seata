@@ -36,6 +36,16 @@ public class WalletController implements WalletApi {
 	}
 
 	@Override
+	public Boolean deductMoney4XA(AmountInfo amountInfo) {
+		String userId = amountInfo.getUserId();
+		long amount = amountInfo.getAmount();
+		// 打印分布式事务XID
+		log.warn("XID:{}", RootContext.getXID());
+		// 扣款
+		return walletService.deductMoney4XA(userId, amount);
+	}
+
+	@Override
 	public Boolean deductMoney4TCC(AmountInfo amountInfo) {
 		String userId = amountInfo.getUserId();
 		long amount = amountInfo.getAmount();

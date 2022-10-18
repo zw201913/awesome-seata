@@ -30,6 +30,15 @@ public class OrderController implements OrderApi {
 	}
 
 	@Override
+	public Boolean createOrder4XA(OrderInfo orderInfo) {
+		String commodityCode = orderInfo.getCommodityCode();
+		int count = orderInfo.getCount();
+		long unitPrice = orderInfo.getUnitPrice();
+		String userId = orderInfo.getUserId();
+		return orderService.createOrder4XA(userId, commodityCode, count, unitPrice);
+	}
+
+	@Override
 	public Boolean createOrder4TCC(OrderInfo orderInfo) {
 		String commodityCode = orderInfo.getCommodityCode();
 		int count = orderInfo.getCount();

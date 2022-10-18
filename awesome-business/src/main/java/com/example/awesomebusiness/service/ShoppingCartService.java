@@ -12,6 +12,8 @@ public interface ShoppingCartService {
 	// 下单
 	String placeOrder4AT() throws GlobalTransactionException;
 
+	// 下单
+	String placeOrder4XA() throws GlobalTransactionException;
 
 	// 下单
 	String placeOrder4TCC() throws GlobalTransactionException;

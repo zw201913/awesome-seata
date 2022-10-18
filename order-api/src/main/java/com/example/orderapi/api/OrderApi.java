@@ -15,6 +15,8 @@ public interface OrderApi {
 	@PutMapping("/create4At")
 	Boolean createOrder4AT(@RequestBody OrderInfo orderInfo);
 
+	@PutMapping("/create4At")
+	Boolean createOrder4XA(@RequestBody OrderInfo orderInfo);
 
 	@PutMapping("/create4TCC")
 	Boolean createOrder4TCC(@RequestBody OrderInfo orderInfo);

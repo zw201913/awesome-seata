@@ -26,6 +26,8 @@ public class ShoppingCartController {
 	public String placeOrder(@PathVariable("model") String model) throws GlobalTransactionException {
 		if (StringUtils.equalsIgnoreCase(model, "AT")) {
 			return shoppingCartService.placeOrder4AT();
+		} else if (StringUtils.equalsIgnoreCase(model, "XA")) {
+			return shoppingCartService.placeOrder4XA();
 		} else if (StringUtils.equalsIgnoreCase(model, "TCC")) {
 			return shoppingCartService.placeOrder4TCC();
 		}

@@ -10,5 +10,7 @@ public interface IStockService {
 
 	Boolean deductStock4AT(String commodityCode, int count);
 
+	Boolean deductStock4XA(String commodityCode, int count);
+
 	Boolean deductStock4TCC(String commodityCode, int count);
 }

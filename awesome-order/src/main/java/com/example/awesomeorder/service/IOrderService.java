@@ -10,5 +10,7 @@ public interface IOrderService {
 
 	Boolean createOrder4AT(String userId, String commodityCode, int count, long unitPrice);
 
+	Boolean createOrder4XA(String userId, String commodityCode, int count, long unitPrice);
+
 	Boolean createOrder4TCC(String userId, String commodityCode, int count, long unitPrice);
 }
