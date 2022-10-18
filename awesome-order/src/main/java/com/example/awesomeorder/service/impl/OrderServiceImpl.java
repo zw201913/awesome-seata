@@ -50,7 +50,7 @@ public class OrderServiceImpl implements IOrderService {
 		// 设置需要扣减的数量
 		orderInfo.setCount(count);
 		// 先构建库存
-		if (stockApiClient.deductStock(orderInfo)) {
+		if (stockApiClient.deductStock4AT(orderInfo)) {
 			// 扣减库存成功后，准备创建订单
 			Order order = new Order();
 			// 创建时间
@@ -89,7 +89,7 @@ public class OrderServiceImpl implements IOrderService {
 		// 设置需要扣减的数量
 		orderInfo.setCount(count);
 		// 预扣减库存
-		if (stockApiClient.deductStock(orderInfo)) {
+		if (stockApiClient.deductStock4TCC(orderInfo)) {
 			// 预创建订单
 			return orderTccAction.prepareOrder(null, userId, commodityCode, count, unitPrice);
 		}
