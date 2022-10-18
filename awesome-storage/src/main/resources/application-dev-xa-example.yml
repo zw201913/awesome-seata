@@ -1,0 +1,81 @@
+spring:
+  # 数据库链接配置
+  datasource:
+    url: jdbc:mysql://host:端口/数据库名称?useUnicode=true&characterEncoding=UTF8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: 用户名
+    password: 密码
+    # 链接池
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      # 链接池初始化大小
+      initial-size: 8
+      # 最大活跃数
+      max-active: 16
+      # 最小空闲数
+      min-idle: 1
+      # 最大等待时间
+      max-wait: 60000
+  # 微服务配置
+  cloud:
+    nacos:
+      discovery:
+        enabled: true
+        server-addr: "host:端口"
+        namespace: "awesome-seata"
+        group: ${spring.profiles.active}
+        username: 用户名
+        password: 密码
+        service: ${spring.application.name}
+        register-enabled: true
+        ip: "127.0.0.1"
+        port: ${server.port}
+        metadata:
+          environment: ${spring.profiles.active}
+          version: ${project.version}
+# mybatis配置
+mybatis:
+  check-config-location: true
+  #  mybatis框架配置文件，对mybatis的生命周期起作用
+  config-location: "classpath:mybatis/mybatis-config.xml"
+  #  配置xml路径
+  mapper-locations: "classpath:mybatis/mapper/*Mapper.xml"
+  #  配置model包路径
+  type-aliases-package: "com.example.awesomestorage.dao.entity.*"
+
+# 分布式事务配置
+seata:
+  #  开启seata
+  enabled: true
+  # XA模式一定要指定数据源代理模式
+  data-source-proxy-mode: XA
+  #  注册中心找TC服务
+  registry:
+    type: nacos
+    nacos:
+      cluster: "default"
+      username: "用户名"
+      password: "密码"
+      server-addr: "host:端口"
+      group: SEATA_GROUP
+      namespace: seata-server
+      application: seata-server
+  application-id: ${spring.application.name}
+  #  事务分组
+  tx-service-group: shanghai
+  service:
+    vgroup-mapping:
+      # 该分组对应的TC集群名称
+      shanghai: default
+
+# 日志配置
+logging:
+  pattern:
+    # 日志输出格式
+    console: "%d{yyyy-MM-dd HH:mm:ss} %clr(%5p) [%thread] %clr(%logger){cyan} : %msg%n"
+  level:
+    #    trace < debug < info < warn < error < fatal
+    # 全局日志级别
+    root: info
+    # 指定包日志级别
+    com.example.awesomestorage: warn
